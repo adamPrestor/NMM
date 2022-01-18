@@ -1,8 +1,9 @@
 % our neural mass model
-function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress)
+function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress, n_d)
   %% constants
   dT = 0.002; % update step
-  n_d = 20; % sliding window size
+  fs = 1 / dT;
+  % n_d = settings.thetaWidth; % sliding window size
   P = 550; % input level [s^-1]
   
   %% initialization
@@ -93,13 +94,22 @@ function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress)
   % synaptic scaling
   a_ss = settings.a_ss;
   SS = ones(N, 1);
+  
+  %% debug utilities
+%   sdp_char = zeros(steps-n_d+1, N*N);
+
+  d = designfilt('bandpassiir','FilterOrder',10, ...
+      'PassbandFrequency1', 70,'PassbandFrequency2', 150, ...
+      'PassbandRipple',0.1000, ...
+      'StopbandAttenuation1',60,'StopbandAttenuation2',60, ...
+      'SampleRate',fs);
  
   %% simulate
   for i = 1:steps
     %% calculations
     % display progress?
     if (showProgress && mod(i, 10000) == 0)
-        disp(['Progress: ', num2str(i), '/', num2str(steps)])
+      disp(['Progress: ', num2str(i), '/', num2str(steps)])
     end
     
     % gaussian noise
@@ -185,7 +195,35 @@ function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress)
       % SDP
       j = (i - n_d) + 1;
       D = E_t(:, j:i)';
+      
+      %% apply high pass and low pass filters
+      for signal_idx = 1:N
+        D(:, signal_idx) = filtfilt(d, D(:, signal_idx));
+      end
+
+      %% try different kind of measurements
+      % correlation
       cor = corr(D);
+      
+      % covariance
+%       cor = cov(D);
+      
+      % mutual information
+%       cor = zeros(N);
+%       for idx=1:N
+%           for jdx=1:N 
+%               cor(idx, jdx) = mutualinfo(D(idx, :), D(jdx, :));
+%           end
+%       end
+%       mutualinfo()
+      
+      % inverse covariance
+      % cor = inv(cov(D));
+      
+%       sdp_char(i - n_d + 1, :) = cor(:);
+%       size(cor)
+      
+      % set diagonal to zero
       cor(logical(eye(size(cor)))) = 0;
       r = power(cor + 1, b_sdp);
       SDP = a_sdp .* ((r ./ (r + H_sdp)) - 0.5);
@@ -222,4 +260,8 @@ function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress)
       C = C_l;
     end
   end
+  
+  %% saving debugging
+%   filename = sprintf('./R/Results/sdp_params/cov/%d.csv', n_d);
+%   csvwrite(filename, sdp_char)
 end

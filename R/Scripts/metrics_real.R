@@ -7,7 +7,7 @@ library(data.table)
 library(cowplot)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("D:/Mag/SourceCode/NMM/R/Results")
 
 # real values of metrics
 # characteristic path

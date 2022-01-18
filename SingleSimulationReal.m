@@ -20,8 +20,14 @@ settings.trackMatrix = false;
 load('./Data/Dist90.mat');
 
 %% simulate
-[C_t, E_t, L_s] = NMM(settings, Dist, true);
-HeatMap(C_t);
+for n_d = 20:5:100
+    [C_t, E_t, L_s] = NMM(settings, Dist, true, n_d);
+    heatmap(C_t);
+    
+    % save plot to some reasonable destination
+    filename = sprintf('./fig/real_%d.png', n_d);
+    saveas(gcf, filename);
+end
 
 %% metrics
 M = Metrics(C_t);

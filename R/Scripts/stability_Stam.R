@@ -7,10 +7,10 @@ library(data.table)
 library(dplyr)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("D:/Mag/SourceCode/NMM/R/Results")
 
 # load values
-df_stability <- data.frame(fread("stability/Stam_extensive.csv", sep = ",", header = FALSE))
+df_stability <- data.frame(fread("stability/Model_extensive_500.csv", sep = ",", header = FALSE))
 names(df_stability) <- c("instability", "a_sdp", "a_gdp")
 
 df_mean <- df_stability %>%
@@ -33,4 +33,3 @@ ggplot(df_mean, aes(y = mean, x = a_sdp)) +
   theme(legend.title = element_blank(), text = element_text(size = 18)) +
   ylim(0, 1)
 
-  

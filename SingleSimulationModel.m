@@ -6,6 +6,7 @@ clearvars();
 
 % paths
 addpath(genpath('./Helper Functions/'));
+addpath(genpath('./Helper Functions/mi/'));
 addpath(genpath('./BCT/'));
 
 % load settings
@@ -18,10 +19,22 @@ settings.focal = false;
 Dist = DistMatrix(settings.N);
 
 %% single simulation
-[C_t, E_t, L_s] = NMM(settings, Dist, true);
-C = squeeze(C_t(settings.steps, :, :));
-HeatMap(C);
-
+for n_d = 500:25:500
+    [C_t, E_t, L_s] = NMM(settings, Dist, true, n_d);
+    C = squeeze(C_t(settings.steps, :, :));
+    heatmap(C);
+    
+    % save plot to some reasonable destination
+    filename = sprintf('./fig/model_%d.png', n_d);
+    saveas(gcf, filename);
+    
+    %% stability plot
+    duration = 2000;
+    con = C_t(settings.steps - duration + 1 : settings.steps, 1, 10);
+    filename = sprintf('./R/Results/stability/model_%d.csv', n_d);
+    csvwrite(filename, con);
+    
+end
 %% save excitation through time
 % csvwrite('./R/Results/simulation/E_t.csv', E_t);
 
@@ -36,10 +49,7 @@ HeatMap(C);
 % csvwrite('./R/Results/matrices/C_i.csv', C_i);
 % csvwrite('./R/Results/matrices/L_s.csv', L_s);
 
-%% stability plot
-% duration = 2000;
-% con = C_t(settings.steps - duration + 1 : settings.steps, 1, 10);
-% csvwrite('./R/Results/stability/model.csv', con);
+
 
 %% power spectrum
 % most injured node
