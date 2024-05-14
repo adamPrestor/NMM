@@ -7,7 +7,7 @@ library(data.table)
 library(dplyr)
 
 # working directory
-setwd("D:/Mag/SourceCode/NMM/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # load values
 df_stability <- data.frame(fread("stability/Model_extensive_500.csv", sep = ",", header = FALSE))

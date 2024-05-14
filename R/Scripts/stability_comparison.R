@@ -7,16 +7,16 @@ library(data.table)
 library(dplyr)
 
 # working directory
-setwd("D:/Mag/SourceCode/NMM/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # load values
-df_stam <- data.frame(fread("stability/Stam_extensive.csv", sep = ",", header = FALSE))
+df_stam <- data.frame(fread("stability/Model_extensive.csv", sep = ",", header = FALSE))
 names(df_stam) <- c("instability", "a_sdp", "a_gdp")
 
 df_stam <- df_stam %>% filter(a_sdp == 0.01) %>% select("instability")
 df_stam$model <- "Stam et al."
 
-df_model <- data.frame(fread("stability/Model_extensive.csv", sep = ",", header = FALSE))
+df_model <- data.frame(fread("stability/beta_model_500.csv", sep = ",", header = FALSE))
 names(df_model) <- c("instability")
 df_model$model <- "Our model"
 

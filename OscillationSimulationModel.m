@@ -18,22 +18,32 @@ settings.focal = false;
 % distance matrix
 Dist = DistMatrix(settings.N);
 
-%% single simulation
-n_d = 500;
-[C_t, E_t, L_s] = NMM(settings, Dist, true, n_d);
-C = squeeze(C_t(settings.steps, :, :));
-heatmap(C);
+settings.use_oscil = true;
+oscilations = Oscilations();
+for idx = 1:size(oscilations, 1)
+    element = oscilations{idx};
+    oscil_name = element{1};
+    settings.oscil_low = element{2};
+    settings.oscil_high = element{3};
 
-% save plot to some reasonable destination
-filename = sprintf('./fig/beta_model_%d.png', n_d);
-saveas(gcf, filename);
+    %% single simulation
+    n_d = 500;
+    [C_t, E_t, L_s] = NMM(settings, Dist, true, n_d);
+    C = squeeze(C_t(settings.steps, :, :));
+    heatmap(C);
 
-%% stability plot
-duration = 2000;
-con = C_t(settings.steps - duration + 1 : settings.steps, 1, 10);
+    % save plot to some reasonable destination
+    filename = sprintf('./fig/%s_model_%d.png', oscil_name, n_d);
+    saveas(gcf, filename);
 
-filename = sprintf('./R/Results/stability/beta_model_%d.csv', n_d);
-writematrix(con, filename);
+    %% stability plot
+    duration = 2000;
+    con = C_t(settings.steps - duration + 1 : settings.steps, 1, 10);
+
+    filename = sprintf('./R/Results/stability/%s_model_%d.csv', oscil_name, n_d);
+    writematrix(con, filename);
+end
+
 
 %% save excitation through time
 % csvwrite('./R/Results/simulation/E_t.csv', E_t);

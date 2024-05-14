@@ -1,7 +1,7 @@
 function settings = Settings()
   %% development phase
   settings.N = 32; % connectome size
-  settings.steps = 20000; % duration % originally: 200000
+  settings.steps = 200000; % duration % originally: 200000
   settings.mu = 4; % gain factor for coupling between NMM
   settings.a_sdp = 0.0002; % SDP step size, 0 means no SDP
   settings.b_sdp = 2;
@@ -19,11 +19,10 @@ function settings = Settings()
   
   %% track matrix through time
   settings.trackMatrix = true;
-  
-  %% neural oscillation
-  settings.gammaHighWidth = 8; % 8.66 tbe - 70Hz
-  settings.gammaWidth = 20; % 30Hz
-  settings.betaWidth = 47;  % 46.62 tbe - 13Hz
-  settings.alphaWidth = 76; % 75.75 tbe - 8Hz
-  settings.thetaWidth = 152; % 151.51 tbe - 4Hz
+
+  %% oscillation
+  settings.use_oscil = false;
+  settings.oscil_low = 1;
+  settings.oscil_high = 4;
+  settings.oscil_name = "delta";
 end

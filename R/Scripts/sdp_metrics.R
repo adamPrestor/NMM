@@ -11,7 +11,7 @@ library(plyr)
 library(data.table)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # metric plots
 df <- data.frame(fread("sdp/M_sdp_model.csv", sep = ",", header = FALSE))

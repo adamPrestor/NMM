@@ -98,11 +98,15 @@ function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress, n_d)
   %% debug utilities
 %   sdp_char = zeros(steps-n_d+1, N*N);
 
-  d = designfilt('bandpassiir','FilterOrder',10, ...
-      'PassbandFrequency1', 70,'PassbandFrequency2', 150, ...
-      'PassbandRipple',0.1000, ...
-      'StopbandAttenuation1',60,'StopbandAttenuation2',60, ...
-      'SampleRate',fs);
+  %% bandpass filter
+  if settings.use_oscil
+      disp(['Bandpass ', num2str(settings.oscil_low), ' - ', num2str(settings.oscil_high)])
+      d = designfilt('bandpassiir','FilterOrder',20, ...
+          'PassbandFrequency1', settings.oscil_low,'PassbandFrequency2', settings.oscil_high, ...
+          'PassbandRipple',0.1000, ...
+          'StopbandAttenuation1',60,'StopbandAttenuation2',60, ...
+          'SampleRate',fs);
+  end
  
   %% simulate
   for i = 1:steps
@@ -197,8 +201,10 @@ function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress, n_d)
       D = E_t(:, j:i)';
       
       %% apply high pass and low pass filters
-      for signal_idx = 1:N
-        D(:, signal_idx) = filtfilt(d, D(:, signal_idx));
+      if settings.use_oscil
+          for signal_idx = 1:N
+            D(:, signal_idx) = filtfilt(d, D(:, signal_idx));
+          end
       end
 
       %% try different kind of measurements
@@ -208,20 +214,8 @@ function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress, n_d)
       % covariance
 %       cor = cov(D);
       
-      % mutual information
-%       cor = zeros(N);
-%       for idx=1:N
-%           for jdx=1:N 
-%               cor(idx, jdx) = mutualinfo(D(idx, :), D(jdx, :));
-%           end
-%       end
-%       mutualinfo()
-      
       % inverse covariance
       % cor = inv(cov(D));
-      
-%       sdp_char(i - n_d + 1, :) = cor(:);
-%       size(cor)
       
       % set diagonal to zero
       cor(logical(eye(size(cor)))) = 0;

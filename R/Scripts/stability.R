@@ -5,23 +5,30 @@ rm(list = ls())
 library(ggplot2)
 
 # working directory
-setwd("D:/Mag/SourceCode/NMM/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # load values
-n_ds <- seq(55, 100, by=5)
-print(n_ds)
+
+nd <- 500
 df <- data.frame()
-for (n_d in n_ds) {
-	df_file <- sprintf("stability/model_%d.csv", n_d)
-	df_model <- data.frame(fread(df_file, sep = ",", header = FALSE))
-	names(df_model) <- c("weight")
-	df_model$type <- sprintf("Steps=%d", n_d)
-	df_model$index <- seq(2000)
 
-	df <- rbind(df, df_model)
-}
+df_file <- sprintf("stability/beta_model_%d.csv", nd)
+df_model <- data.frame(fread(df_file, sep = ",", header = FALSE))
+names(df_model) <- c("weight")
+df_model$type <- sprintf("Steps=%d", nd)
+df_model$index <- seq(2000)
 
-n <- length(n_ds)
+df <- rbind(df, df_model)
+
+df_file <- sprintf("stability/alpha_model_%d.csv", nd)
+df_model <- data.frame(fread(df_file, sep = ",", header = FALSE))
+names(df_model) <- c("weight")
+df_model$type <- sprintf("Steps=%d", nd)
+df_model$index <- seq(2000)
+
+df <- rbind(df, df_model)
+
+n <- 2
 palette <- rainbow(n, s = 1, v = 1, start = 0, end = max(1, n - 1)/n, alpha = 1)
 
 ggplot(df, aes(x = index, y = weight, colour = type)) +
