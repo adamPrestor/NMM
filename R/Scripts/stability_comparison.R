@@ -7,7 +7,7 @@ library(data.table)
 library(dplyr)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # load values
 df_stam <- data.frame(fread("stability/Stam_extensive.csv", sep = ",", header = FALSE))

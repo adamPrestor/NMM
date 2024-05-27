@@ -51,7 +51,7 @@ matrixPlot <- function(filename, title = "", legend = FALSE) {
 }
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd('C:/Mag/NMM/R/Results')
 
 # connectome plots
 p1 <- matrixPlot("sdp/C_1.csv", expression(a[sdp] * " = 0"), FALSE)

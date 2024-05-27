@@ -5,7 +5,7 @@ rm(list = ls())
 library(ggplot2)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # load values
 df_model <- data.frame(fread("stability/model.csv", sep = ",", header = FALSE))

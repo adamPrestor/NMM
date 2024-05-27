@@ -1,9 +1,10 @@
 % our neural mass model
-function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress)
+function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress, n_d)
   %% constants
   dT = 0.002; % update step
-  n_d = 20; % sliding window size
+  % n_d = 20; % sliding window size % default 20
   P = 550; % input level [s^-1]
+  n_d
   
   %% initialization
   % basic

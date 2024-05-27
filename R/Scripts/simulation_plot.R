@@ -6,7 +6,7 @@ library(ggplot2)
 library(data.table)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # load values
 df <- data.frame(fread("simulation/M_t_model.csv", sep = ",", header = FALSE))
