@@ -7,7 +7,7 @@ library(cowplot)
 library(data.table)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # real values of metrics
 # characteristic path
@@ -22,7 +22,7 @@ r <- 0.03
 deg <- 27.6
 
 # folder
-fileName <- paste0("real/M_parameters_real.csv")
+fileName <- paste0("model/M_parameters_cov.csv")
 
 # data
 df <- data.frame(fread(fileName, sep = ",", header = FALSE))

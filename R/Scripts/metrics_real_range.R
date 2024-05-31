@@ -2,12 +2,17 @@
 
 # filter
 df <- df_all
-df <- df[df$a_sdp >= 0.0003 & df$a_sdp <= 0.0006,]
-df <- df[df$b_sdp >= 10 & df$b_sdp <= 18,]
-df <- df[df$c_gdp >= 0.2 & df$c_gdp <= 0.4,]
+df <- df[df$a_sdp >= 2 & df$a_sdp <= 8,]
+df <- df[df$b_sdp >= 2 & df$b_sdp <= 6,]
+df <- df[df$c_gdp >= 0.1 & df$c_gdp <= 0.2,]
 
 # melt
-df <- melt(df)
+df <- melt(data.table(df))
+
+l <- 2.53
+c <- 0.60
+q <- 0.46
+r <- 0.55
 
 p_l <- ggplot(df[df$variable == "l", ], aes(x = variable, y = value)) +
   geom_boxplot(colour = "grey25", fill = "#beaed4") +
