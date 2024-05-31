@@ -3,9 +3,10 @@ rm(list = ls())
 
 # load libraries
 library(ggplot2)
+library(data.table)
 
 # working directory
-setwd("D:/Projects/nmm/R/Results")
+setwd("C:/Mag/NMM/R/Results")
 
 # load values
 df_model <- data.frame(fread("stability/model.csv", sep = ",", header = FALSE))
@@ -13,9 +14,9 @@ names(df_model) <- c("weight")
 df_model$type <- "Our model"
 df_model$index <- seq(2000)
 
-df_stam <- data.frame(fread("stability/stam.csv", sep = ",", header = FALSE))
+df_stam <- data.frame(fread("stability/model_cov.csv", sep = ",", header = FALSE))
 names(df_stam) <- c("weight")
-df_stam$type <- "Stam et al."
+df_stam$type <- "Covariance"
 df_stam$index <- seq(2000)
 
 df <- rbind(df_model, df_stam)

@@ -185,7 +185,9 @@ function [C_t, E_t, L_s] = NMM(settings, Dist, showProgress)
       % SDP
       j = (i - n_d) + 1;
       D = E_t(:, j:i)';
-      cor = corr(D);
+      cor = cov(D);
+      cor;
+
       cor(logical(eye(size(cor)))) = 0;
       r = power(cor + 1, b_sdp);
       SDP = a_sdp .* ((r ./ (r + H_sdp)) - 0.5);

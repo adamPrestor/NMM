@@ -13,6 +13,7 @@ settings = Settings();
 
 % focal or diffuse injury
 settings.focal = false;
+% settings.trackMatrix = false;
 
 % distance matrix
 Dist = DistMatrix(settings.N);
@@ -20,14 +21,16 @@ Dist = DistMatrix(settings.N);
 %% single simulation
 [C_t, E_t, L_s] = NMM(settings, Dist, true);
 C = squeeze(C_t(settings.steps, :, :));
-HeatMap(C);
+heatmap(C);
+
+saveas(gcf, './fig/model_cov.png');
 
 %% save excitation through time
 % csvwrite('./R/Results/simulation/E_t.csv', E_t);
 
 %% simulation plot
-%M_t = MetricsThroughTime(C_t);
-%csvwrite('./R/Results/simulation/M_t_model.csv', M_t);
+% M_t = MetricsThroughTime(C_t);
+% csvwrite('./R/Results/simulation/M_t_model.csv', M_t);
 
 %% three matrices collage
 % C_h = squeeze(C_t(settings.steps / 2, :, :));
@@ -37,9 +40,13 @@ HeatMap(C);
 % csvwrite('./R/Results/matrices/L_s.csv', L_s);
 
 %% stability plot
-% duration = 2000;
-% con = C_t(settings.steps - duration + 1 : settings.steps, 1, 10);
-% csvwrite('./R/Results/stability/model.csv', con);
+duration = 2000;
+con = C_t(settings.steps - duration + 1 : settings.steps, 1, 10);
+csvwrite('./R/Results/stability/model_cov.csv', con);
+
+%% metrics
+M = Metrics(C);
+csvwrite('./R/Results/real/C_cov.csv', M);
 
 %% power spectrum
 % most injured node

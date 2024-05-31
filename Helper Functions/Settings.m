@@ -3,9 +3,9 @@ function settings = Settings()
   settings.N = 32; % connectome size
   settings.steps = 200000; % duration
   settings.mu = 4; % gain factor for coupling between NMM
-  settings.a_sdp = 0.00002; % SDP step size, 0 means no SDP
+  settings.a_sdp = 5; % SDP step size, 0 means no SDP
   settings.b_sdp = 2;
-  settings.a_gdp = 0.00001; % GDP step size, 0 means no GDP
+  settings.a_gdp = 0.00000002; % GDP step size, 0 means no GDP
   settings.c_gdp = 0.2;
   settings.a_ss = 2; % synaptic scaling strength
   

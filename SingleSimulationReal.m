@@ -21,10 +21,12 @@ load('./Data/Dist90.mat');
 
 %% simulate
 [C_t, E_t, L_s] = NMM(settings, Dist, true);
-HeatMap(C_t);
+heatmap(C_t);
+
+size(C_t)
 
 %% metrics
-M = Metrics(C_t);
+M = MetricsThroughTime(C_t);
 
 %% save matrix
-csvwrite('./R/Results/real/C.csv', C_t);
+csvwrite('./R/Results/real/C.csv', M);
