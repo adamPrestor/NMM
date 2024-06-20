@@ -22,11 +22,11 @@ r <- 0.03
 deg <- 27.6
 
 # folder
-fileName <- paste0("real/M_parameters_real.csv")
+fileName <- paste0("model/M_parameters_cov_expended.csv")
 
 # data
 df <- data.frame(fread(fileName, sep = ",", header = FALSE))
-names(df) <- c("a_sdp", "b_sdp", "c_gdp", "l", "c", "q", "r", "deg")
+names(df) <- c("a_sdp", "b_sdp", "c_gdp", "a_gdp", "l", "c", "q", "r", "deg")
 
 # remove NaNs
 df <- df[complete.cases(df), ]
